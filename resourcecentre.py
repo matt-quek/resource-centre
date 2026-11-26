@@ -52,99 +52,111 @@ def menu():
             print("Invalid choice, please enter again.\n")
     return choice
 
+def add_item():
+    print_header("Add an item")
+    print("\nItem types:")
+    print("1. Digital Camera")
+    print("2. Laptop")
+    item_type = int(input("Enter option to select item type >"))
+    if item_type == TYPE_CAMERA:
+        tag = input("Enter asset tag >")
+        desc = input("Enter description >")
+        cameras.append([tag, desc, "Yes", ""])
+        print("Digital camera added.")
+    elif item_type == TYPE_LAPTOP:
+        tag = input("Enter asset tag >")
+        desc = input("Enter description >")
+        laptops.append([tag, desc, "Yes", ""])
+        print("Laptop added.")
+    else:
+        print("Invalid item type.")
+
+
+def display_items():
+    print_header("Display available items")
+    for i in cameras:
+        if i[2] == AVAILABLE:
+            print(i[0], i[1])
+    for i in laptops:
+        if i[2] == AVAILABLE:
+            print(i[0], i[1])
+
+def loan_item():
+    print_header("Loan an item")
+    print("\nItem types:")
+    print("1. Digital Camera")
+    print("2. Laptop")
+    item_type = int(input("Enter option to select item type >"))
+    if item_type == TYPE_CAMERA:
+        for i in cameras:
+            if i[2] == AVAILABLE:
+                print(i[0], i[1])
+        tag = input("Enter asset tag >")
+        due_date = input("Enter due date >")
+        for i in cameras:
+            if i[0] == tag:
+                if i[2] == AVAILABLE:
+                    i[2] = LOANED
+                    i[3] = due_date
+                    print("Camera", tag, "loaned out.")
+    elif item_type == TYPE_LAPTOP:
+        for i in laptops:
+            if i[2] == AVAILABLE:
+                print(i[0], i[1])
+        tag = input("Enter asset tag >")
+        due_date = input("Enter due date >")
+        for i in laptops:
+            if i[0] == tag:
+                if i[2] == AVAILABLE:
+                    i[2] = LOANED
+                    i[3] = due_date
+                    print("Laptop", tag, "loaned out.")
+    else:
+        print("Invalid item type.")
+    
+
+def return_item():
+    print_header("Return an item")
+    print("\nItem types:")
+    print("1. Digital Camera")
+    print("2. Laptop")
+    item_type = int(input("Enter option to select item type >"))
+    if item_type == TYPE_CAMERA:
+        tag = input("Enter asset tag >")
+        for i in cameras:
+            if i[0] == tag:
+                i[2] = AVAILABLE
+                i[3] = ""
+                print("Camera", tag, "returned.")
+    elif item_type == TYPE_LAPTOP:
+        tag = input("Enter asset tag >")
+        for i in laptops:
+            if i[0] == tag:
+                i[2] = AVAILABLE
+                i[3] = ""
+                print("Laptop", tag, "returned.")
+    else:
+        print("Invalid item type.")
+
+
+def display_counts():
+    print("Cameras available:", count_available(cameras))
+    print("Laptops available:", count_available(laptops))
+
 
 def go():
     choice = menu()
     while choice != 0:
-
         if choice == 1:
-            print_header("Add an item")
-            print("\nItem types:")
-            print("1. Digital Camera")
-            print("2. Laptop")
-            item_type = int(input("Enter option to select item type >"))
-            if item_type == TYPE_CAMERA:
-                tag = input("Enter asset tag >")
-                desc = input("Enter description >")
-                cameras.append([tag, desc, "Yes", ""])
-                print("Digital camera added.")
-            elif item_type == TYPE_LAPTOP:
-                tag = input("Enter asset tag >")
-                desc = input("Enter description >")
-                laptops.append([tag, desc, "Yes", ""])
-                print("Laptop added.")
-            else:
-                print("Invalid item type.")
-
+            add_item()
         elif choice == 2:
-            print_header("Display available items")
-            for i in cameras:
-                if i[2] == AVAILABLE:
-                    print(i[0], i[1])
-            for i in laptops:
-                if i[2] == AVAILABLE:
-                    print(i[0], i[1])
-
+            display_items()
         elif choice == 3:
-            print_header("Loan an item")
-            print("\nItem types:")
-            print("1. Digital Camera")
-            print("2. Laptop")
-            item_type = int(input("Enter option to select item type >"))
-            if item_type == TYPE_CAMERA:
-                for i in cameras:
-                    if i[2] == AVAILABLE:
-                        print(i[0], i[1])
-                tag = input("Enter asset tag >")
-                due_date = input("Enter due date >")
-                for i in cameras:
-                    if i[0] == tag:
-                        if i[2] == AVAILABLE:
-                            i[2] = LOANED
-                            i[3] = due_date
-                            print("Camera", tag, "loaned out.")
-            elif item_type == TYPE_LAPTOP:
-                for i in laptops:
-                    if i[2] == AVAILABLE:
-                        print(i[0], i[1])
-                tag = input("Enter asset tag >")
-                due_date = input("Enter due date >")
-                for i in laptops:
-                    if i[0] == tag:
-                        if i[2] == AVAILABLE:
-                            i[2] = LOANED
-                            i[3] = due_date
-                            print("Laptop", tag, "loaned out.")
-            else:
-                print("Invalid item type.")
-
+            loan_item()
         elif choice == 4:
-            print_header("Return an item")
-            print("\nItem types:")
-            print("1. Digital Camera")
-            print("2. Laptop")
-            item_type = int(input("Enter option to select item type >"))
-            if item_type == TYPE_CAMERA:
-                tag = input("Enter asset tag >")
-                for i in cameras:
-                    if i[0] == tag:
-                        i[2] = AVAILABLE
-                        i[3] = ""
-                        print("Camera", tag, "returned.")
-            elif item_type == TYPE_LAPTOP:
-                tag = input("Enter asset tag >")
-                for i in laptops:
-                    if i[0] == tag:
-                        i[2] = AVAILABLE
-                        i[3] = ""
-                        print("Laptop", tag, "returned.")
-            else:
-                print("Invalid item type.")
-
+            return_item()
         elif choice == 5:
-            print("Cameras available:", count_available(cameras))
-            print("Laptops available:", count_available(laptops))
-
+            display_counts()
         else:
             print("Invalid choice.")
 
